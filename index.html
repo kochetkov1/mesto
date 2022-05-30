@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body>
+  <div class="page">
+    <header class="header">
+      <img class="header__logo" src="./images/header-logo.svg" alt="Логотип">
+    </header>
+
+    <main class="content">
+
+      <section class="profile">
+
+        <img class="profile__photo" src="./images/profile-photo.jpg" alt="Фотография профиля">
+        <div class="profile__name-block">
+          <div class="profile__name-button-box">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <button class="profile__edit-button"></button>
+          </div>
+          <p class="profile__description">Исследователь океана</p>
+        </div>
+        <button class="profile__add-button"></button>
+
+      </section>
+
+      <section class="photo-grid">
+
+        <div class="photo-grid__item">
+          <img class="photo-grid__image" src="./images/place-sochi.jpg" alt="Горная река в Сочи">
+          <div class="photo-grid__bar">
+            <h2 class="photo-grid__title">Сочи</h2>
+            <button class="photo-grid__like"></button>
+          </div>
+        </div>
+
+        <div class="photo-grid__item">
+          <img class="photo-grid__image" src="./images/place-krasnodar.jpg" alt="Парк в Краснодаре">
+          <div class="photo-grid__bar">
+            <h2 class="photo-grid__title">Краснодар</h2>
+            <button class="photo-grid__like"></button>
+          </div>
+        </div>
+
+        <div class="photo-grid__item">
+          <img class="photo-grid__image" src="./images/place-volgograd.jpg" alt="Памятник в Волгограде">
+          <div class="photo-grid__bar">
+            <h2 class="photo-grid__title">Волгоград</h2>
+            <button class="photo-grid__like"></button>
+          </div>
+        </div>
+
+        <div class="photo-grid__item">
+          <img class="photo-grid__image" src="./images/place-saintpeterburg.jpg" alt="Собор в Санкт-Петербурге">
+          <div class="photo-grid__bar">
+            <h2 class="photo-grid__title">Санкт-Петербург</h2>
+            <button class="photo-grid__like"></button>
+          </div>
+        </div>
+
+        <div class="photo-grid__item">
+          <img class="photo-grid__image" src="./images/place-kaliningrad.jpg" alt="Улица в Калининграде">
+          <div class="photo-grid__bar">
+            <h2 class="photo-grid__title">Калининград</h2>
+            <button class="photo-grid__like"></button>
+          </div>
+        </div>
+
+        <div class="photo-grid__item">
+          <img class="photo-grid__image" src="./images/place-samara.jpg" alt="Качели в Самаре">
+          <div class="photo-grid__bar">
+            <h2 class="photo-grid__title">Самара</h2>
+            <button class="photo-grid__like"></button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+    </footer>
+
+  </div>
+
+  <div class="popup">
+    <div class="popup__container">
+      <div class="popup__title">Редактировать профиль</div>
+        <form class="popup__form">
+          <input type="text" class="popup__input-name">
+          <input type="text" class="popup__input-description">
+          <button type="submit" class="popup__save-button">Сохранить</button>
+        </form>
+      <button class="popup__close-button"></button>
+    </div>
+  </div>
+
+  <script src="./pages/index.js"></script>
+</body>
+
+</html>
