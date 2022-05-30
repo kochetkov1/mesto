@@ -39,7 +39,7 @@ popup.addEventListener('click', function (e) {
 // Действия с полями
 
 function formSubmitHandler(evt) {
-  evt.preventDefault(); 
+  evt.preventDefault();
 
   profileName.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
