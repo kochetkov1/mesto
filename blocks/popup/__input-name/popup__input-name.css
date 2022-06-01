@@ -1,30 +1,9 @@
 .popup__input-name {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-
-  width: 358px;
-  height: 27px;
-
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-
   margin: 54px 0 0 0;
-  padding: 0;
-
-  box-sizing: border-box;
-
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 @media screen and (max-width: 881px) {
   .popup__input-name {
-    width: 238px;
-
     margin: 75px 0 0 0;
   }
 }
