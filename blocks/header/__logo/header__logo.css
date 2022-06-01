@@ -3,7 +3,8 @@
   height: 33px;
 
   margin: 0 0 41px 0;
-  padding: 0;
+
+  display: block;
 }
 
 @media screen and (max-width: 881px) {
