@@ -1,5 +1,6 @@
 .profile {
   max-width: 880px;
+  min-width: 780px;
   width: 100%;
   padding: 40px 0 50px 0;
 
@@ -16,5 +17,7 @@
 
     padding-bottom: 36px;
     padding-top: 42px;
+
+    min-width: 320px;
   }
 }

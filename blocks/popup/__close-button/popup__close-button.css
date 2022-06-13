@@ -14,7 +14,7 @@
   top: calc(-8px - 32px);
   right: calc(-8px - 32px);
 
-  z-index: 3;
+  z-index: 11;
 
   transition: 0.7s;
 }
