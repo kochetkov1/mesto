@@ -134,7 +134,7 @@ addCardButton.addEventListener('click', function () {
 });
 
 // Обработчик клика кнопки закрытия попапа профиля
-popupProfile.addEventListener('click', function () {
+popupCloseButton.addEventListener('click', function () {
   closePopup();
 });
 
