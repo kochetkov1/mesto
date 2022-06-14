@@ -40,10 +40,10 @@
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/popup.css);
-@import url(../blocks/popup/_opened/popup_opened.css);
 
 @import url(../blocks/popup-pic/popup-pic.css);
 @import url(../blocks/popup-pic/__image/popup-pic__image.css);
 @import url(../blocks/popup-pic/__title/popup-pic__title.css);
-@import url(../blocks/popup-pic/_opened/popup-pic_opened.css);
 @import url(../blocks/popup-pic/__container/popup-pic__container.css);
+
+@import url(../blocks/popup/_opened/popup_opened.css);

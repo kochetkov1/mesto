@@ -26,27 +26,27 @@ const popupPicCloseButton = popupPic.querySelector('[name="popup__close-button-i
 const initialCards = [
   {
     name: 'Сочи',
-    link: 'https://images.unsplash.com/photo-1604231787570-99263ec7b715?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDk0NDU3Mg&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080'
+    link: './images/place-sochi.jpg'
   },
   {
     name: 'Краснодар',
-    link: 'https://images.unsplash.com/photo-1591731601603-9a1472d54a2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDk0NTI5OQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080'
+    link: './images/place-krasnodar.jpg'
   },
   {
     name: 'Волгоград',
-    link: 'https://images.unsplash.com/photo-1588424157150-fb13a23a2101?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDk0NTM4NA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080'
+    link: './images/place-volgograd.jpg'
   },
   {
     name: 'Санкт-Петербург',
-    link: 'https://images.unsplash.com/photo-1590784776259-682d0042347f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDk0NTQ3NA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080'
+    link: './images/place-saintpeterburg.jpg'
   },
   {
     name: 'Калининград',
-    link: 'https://images.unsplash.com/photo-1653467118407-f97431830209?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDk0NTY0OA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080'
+    link: './images/place-kaliningrad.jpg'
   },
   {
     name: 'Самара',
-    link: 'https://images.unsplash.com/photo-1633159556193-e95066818721?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDk0NTc0OQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080'
+    link: './images/place-samara.jpg'
   }
 ];
 // Добавление карточек из массива
@@ -59,6 +59,8 @@ initialCards.forEach(function (item) {
   const cardElement = photoGridCard.cloneNode(true);
   // Ищем картинку и задаем её адрес
   cardElement.querySelector('.photo-grid__image').src = item.link;
+  // Ищем картинку и задаем её альт
+  cardElement.querySelector('.photo-grid__image').alt = item.name;
   // Ищем заголовок и задаем его
   cardElement.querySelector('.photo-grid__title').textContent = item.name;
   // Вешаем обработчик на лайк
@@ -99,7 +101,7 @@ function openPopupCard() {
 
 // Функция открытия попапа увеличения картинок
 function openPopupPic() {
-  popupPic.classList.add('popup-pic_opened');
+  popupPic.classList.add('popup_opened');
 }
 
 // Функция закрытия попапа профиля
@@ -118,7 +120,7 @@ function closePopupCard() {
 
 // Функция закрытия попапа увеличения картинок
 function closePopupPic() {
-  popupPic.classList.remove('popup-pic_opened');
+  popupPic.classList.remove('popup_opened');
 }
 
 // Обработчик клика кнопки Редактировать профиль
@@ -190,6 +192,8 @@ function formSubmitHandlerCard(evt) {
   const cardElement = photoGridCard.cloneNode(true);
   // Ищем картинку и задаем её адрес
   cardElement.querySelector('.photo-grid__image').src = urlInputCard.value;
+  // Ищем картинку и задаем её альт
+  cardElement.querySelector('.photo-grid__image').alt = nameInputCard.value;
   // Ищем заголовок и задаем его
   cardElement.querySelector('.photo-grid__title').textContent = nameInputCard.value;
   // Вешаем обработчик на лайк
