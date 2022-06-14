@@ -144,7 +144,7 @@ popupCardCloseButton.addEventListener('click', function () {
 });
 
 // Обработчик клика кнопки закрытия попапа увеличения картинок
-popupPic.addEventListener('click', function () {
+popupPicCloseButton.addEventListener('click', function () {
   closePopupPic();
 });
 
