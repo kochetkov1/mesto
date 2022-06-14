@@ -46,7 +46,7 @@ const initialCards = [
   },
   {
     name: 'Самара',
-    link: 'https://static.tonkosti.ru/tonkosti/table_img/g192/dbdb/261209651.jpg'
+    link: './images/place-samara.jpg'
   }
 ];
 // Добавление карточек из массива
