@@ -8,6 +8,7 @@
 
   z-index: 2;
 
+  display: none;
   justify-content: center;
   align-items: center;
 
@@ -16,6 +17,4 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.7s, opacity 0.5s linear;
-
-  display: flex;
 }
