@@ -206,6 +206,14 @@ function formSubmitHandlerCard(evt) {
     const cardItem = deleteButtonCard.closest('.photo-grid__item');
     cardItem.remove();
   });
+  // Вешаем обработчик на открывание картинки
+  cardElement.querySelector('.photo-grid__image').addEventListener('click', function () {
+    const popupPicImage = document.querySelector('.popup-pic__image');
+    const popupPicTitle = document.querySelector('.popup-pic__title');
+    popupPicImage.src = urlInputCard.value;
+    popupPicTitle.textContent = nameInputCard.value;
+    openPopupPic();
+  });
   // Вставляем карточку
   photoGrid.prepend(cardElement);
 
