@@ -22,6 +22,10 @@ const cardUrl = document.querySelector('.photo-grid__image');
 const popupPic = document.querySelector('.popup-pic');
 // Кнопки для попапа увеличения картинок
 const popupPicCloseButton = popupPic.querySelector('[name="popup__close-button-image"]');
+// Находим секцию, в которую будем вставлять карточки
+const photoGrid = document.querySelector('.photo-grid');
+// Находим шаблон с его содержимым
+const photoGridCard = document.querySelector('#card').content;
 
 const initialCards = [
   {
@@ -51,10 +55,6 @@ const initialCards = [
 ];
 // Добавление карточек из массива
 initialCards.forEach(function (item) {
-  // Находим секцию, в которую будем вставлять карточки
-  const photoGrid = document.querySelector('.photo-grid');
-  // Находим шаблон с его содержимым
-  const photoGridCard = document.querySelector('#card').content;
   // Копируем карточку
   const cardElement = photoGridCard.cloneNode(true);
   // Ищем картинку и задаем её адрес
@@ -79,6 +79,7 @@ initialCards.forEach(function (item) {
     const popupPicTitle = document.querySelector('.popup-pic__title');
     popupPicImage.src = item.link;
     popupPicTitle.textContent = item.name;
+    popupPicImage.alt = item.name;
     openPopupPic();
   });
   // Вставляем карточку
@@ -170,7 +171,7 @@ popupPic.addEventListener('click', function (e) {
 });
 
 // Действия с полями попапа профиля
-function formSubmitHandler(evt) {
+function submitEditProfileForm(evt) {
   evt.preventDefault();
 
   profileName.textContent = nameInput.value;
@@ -179,15 +180,11 @@ function formSubmitHandler(evt) {
   closePopup();
 }
 
-formElement.addEventListener('submit', formSubmitHandler);
+formElement.addEventListener('submit', submitEditProfileForm);
 
 // Действия с полями попапа карточек 
 function formSubmitHandlerCard(evt) {
   evt.preventDefault();
-  // Находим секцию, в которую будем вставлять карточку
-  const photoGrid = document.querySelector('.photo-grid');
-  // Находим шаблон с его содержимым
-  const photoGridCard = document.querySelector('#card').content;
   // Копируем карточку
   const cardElement = photoGridCard.cloneNode(true);
   // Ищем картинку и задаем её адрес
@@ -210,8 +207,9 @@ function formSubmitHandlerCard(evt) {
   cardElement.querySelector('.photo-grid__image').addEventListener('click', function () {
     const popupPicImage = document.querySelector('.popup-pic__image');
     const popupPicTitle = document.querySelector('.popup-pic__title');
-    popupPicImage.src = urlInputCard.value;
-    popupPicTitle.textContent = nameInputCard.value;
+    popupPicImage.src = document.querySelector('.photo-grid__image').src;
+    popupPicTitle.textContent = document.querySelector('.photo-grid__title').textContent;
+    popupPicImage.alt = document.querySelector('.photo-grid__title').textContent;
     openPopupPic();
   });
   // Вставляем карточку
