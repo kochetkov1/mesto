@@ -221,5 +221,3 @@ function formSubmitHandlerCard(evt) {
 }
 
 formCard.addEventListener('submit', formSubmitHandlerCard);
-
-const p = 1;
