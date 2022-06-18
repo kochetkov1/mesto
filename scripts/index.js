@@ -204,12 +204,16 @@ function formSubmitHandlerCard(evt) {
     cardItem.remove();
   });
   // Вешаем обработчик на открывание картинки
-  cardElement.querySelector('.photo-grid__image').addEventListener('click', function () {
+  cardElement.querySelector('.photo-grid__image').addEventListener('click', function (evt) {
     const popupPicImage = document.querySelector('.popup-pic__image');
     const popupPicTitle = document.querySelector('.popup-pic__title');
-    popupPicImage.src = document.querySelector('.photo-grid__image').src;
-    popupPicTitle.textContent = document.querySelector('.photo-grid__title').textContent;
-    popupPicImage.alt = document.querySelector('.photo-grid__title').textContent;
+    // console.log(evt.target);
+    // popupPicImage.src = evt.target.src;
+    // popupPicTitle.textContent = evt.target.closest('.photo-grid__title').textContent;
+    // popupPicImage.alt = evt.target.textContent;
+    popupPicImage.src = cardElement.querySelector('.photo-grid__image').src;
+    popupPicTitle.textContent = cardElement.querySelector('.photo-grid__title').textContent;
+    popupPicImage.alt = cardElement.querySelector('.photo-grid__title').textContent;
     openPopupPic();
   });
   // Вставляем карточку
