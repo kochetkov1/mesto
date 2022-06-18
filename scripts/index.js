@@ -186,7 +186,8 @@ formElement.addEventListener('submit', submitEditProfileForm);
 function formSubmitHandlerCard(evt) {
   evt.preventDefault();
   // Копируем карточку
-  const cardElement = photoGridCard.cloneNode(true);
+  const cardElement = photoGridCard.cloneNode(true).querySelector('.photo-grid__item');
+  console.log(cardElement);
   // Ищем картинку и задаем её адрес
   cardElement.querySelector('.photo-grid__image').src = urlInputCard.value;
   // Ищем картинку и задаем её альт
