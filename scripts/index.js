@@ -74,12 +74,11 @@ function createCard(picName, picUrl) {
   });
 
   // Вешаем обработчик на открывание картинки
-    newCard.querySelector('.photo-grid__image').addEventListener('click', function () {
+  newCard.querySelector('.photo-grid__image').addEventListener('click', function () {
     popupPicImage.src = picUrl;
-    popupPicImage.alt =  picName;
+    popupPicImage.alt = picName;
     popupPicTitle.textContent = picName;
-    // openPopup(openPopupPic); это попозже
-    openPopupPic();
+    openPopup(popupPic);
   })
   return newCard;
 }
@@ -89,87 +88,73 @@ initialCards.forEach(function (item) {
   photoGrid.append(createCard(item.name, item.link));
 });
 
-// Функция открытия попапа профиля
-function openPopup() {
-  popupProfile.classList.add('popup_opened');
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileDescription.textContent;
+// Функция открытия попапа
+function openPopup(anyPopup) {
+  anyPopup.classList.add('popup_opened');
+  if (anyPopup === popupProfile) {
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileDescription.textContent;
+  } else if (anyPopup === popupCard) {
+    nameInputCard.value = "";
+    urlInputCard.value = "";
+  };
 }
 
-// Функция открытия попапа карточек
-function openPopupCard() {
-  popupCard.classList.add('popup_opened');
-  nameInputCard.value = "";
-  urlInputCard.value = "";
-}
-
-// Функция открытия попапа увеличения картинок
-function openPopupPic() {
-  popupPic.classList.add('popup_opened');
-}
-
-// Функция закрытия попапа профиля
-function closePopup() {
-  popupProfile.classList.remove('popup_opened');
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileDescription.textContent;
-}
-
-// Функция закрытия попапа карточек
-function closePopupCard() {
-  popupCard.classList.remove('popup_opened');
-  nameInputCard.value = "";
-  urlInputCard.value = "";
-}
-
-// Функция закрытия попапа увеличения картинок
-function closePopupPic() {
-  popupPic.classList.remove('popup_opened');
+// Функция закрытия попапа
+function closePopup(anyPopup) {
+  anyPopup.classList.remove('popup_opened');
+  if (anyPopup === popupProfile) {
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileDescription.textContent;
+  } else if (anyPopup === popupCard) {
+    nameInputCard.value = "";
+    urlInputCard.value = "";
+  };
 }
 
 // Обработчик клика кнопки Редактировать профиль
 editProfileButton.addEventListener('click', function () {
-  openPopup();
+  openPopup(popupProfile);
 });
 
 // Обработчик клика кнопки Добавить
 addCardButton.addEventListener('click', function () {
-  openPopupCard();
+  openPopup(popupCard);
 });
 
 // Обработчик клика кнопки закрытия попапа профиля
 popupCloseButton.addEventListener('click', function () {
-  closePopup();
+  closePopup(popupProfile);
 });
 
 // Обработчик клика кнопки закрытия попапа карточек
 popupCardCloseButton.addEventListener('click', function () {
-  closePopupCard();
+  closePopup(popupCard);
 });
 
 // Обработчик клика кнопки закрытия попапа увеличения картинок
 popupPicCloseButton.addEventListener('click', function () {
-  closePopupPic();
+  closePopup(popupPic);
 });
 
 // Закрытие кликом в пустоту для профиля
 popupProfile.addEventListener('click', function (e) {
   if (e.target === e.currentTarget) {
-    closePopup();
+    closePopup(popupProfile);
   }
 });
 
 // Закрытие кликом в пустоту для карточек
 popupCard.addEventListener('click', function (e) {
   if (e.target === e.currentTarget) {
-    closePopupCard();
+    closePopup(popupCard);
   }
 });
 
 // Закрытие кликом в пустоту для картинок
 popupPic.addEventListener('click', function (e) {
   if (e.target === e.currentTarget) {
-    closePopupPic();
+    closePopup(popupPic);
   }
 });
 
@@ -180,7 +165,7 @@ function submitEditProfileForm(evt) {
   profileName.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
 
-  closePopup();
+  closePopup(popupProfile);
 }
 
 formElement.addEventListener('submit', submitEditProfileForm);
@@ -190,7 +175,7 @@ function formSubmitHandlerCard(evt) {
   evt.preventDefault();
   photoGrid.prepend(createCard(nameInputCard.value, urlInputCard.value));
 
-  closePopupCard();
+  closePopup(popupCard);
 }
 
 formCard.addEventListener('submit', formSubmitHandlerCard);
