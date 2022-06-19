@@ -18,6 +18,8 @@
   align-content: flex-end;
 
   transition: 0.7s;
+
+  cursor: pointer;
 }
 
 .profile__add-button:hover {

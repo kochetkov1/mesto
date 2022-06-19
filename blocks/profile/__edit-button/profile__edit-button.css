@@ -16,6 +16,8 @@
   align-self: center;
 
   transition: 0.7s;
+
+  cursor: pointer;
 }
 
 .profile__edit-button:hover {
