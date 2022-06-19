@@ -32,9 +32,10 @@ const photoGridCard = document.querySelector('#card').content;
 // Создание новой карточки
 function createCard(picName, picUrl) {
   const newCard = photoGridCard.querySelector('.photo-grid__item').cloneNode(true);
-  newCard.querySelector('.photo-grid__image').src = picUrl;
+  const newCardImage = newCard.querySelector('.photo-grid__image');
+  newCardImage.src = picUrl;
   newCard.querySelector('.photo-grid__title').textContent = picName;
-  newCard.querySelector('.photo-grid__image').alt = picName;
+  newCardImage.alt = picName;
 
   // Вешаем обработчик на лайк
   newCard.querySelector('.photo-grid__like').addEventListener('click', function (evt) {
@@ -64,29 +65,19 @@ initialCards.forEach(function (item) {
 // Функция открытия попапа
 function openPopup(anyPopup) {
   anyPopup.classList.add('popup_opened');
-  if (anyPopup === popupProfile) {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileDescription.textContent;
-  } else if (anyPopup === popupCard) {
-    nameInputCard.value = "";
-    urlInputCard.value = "";
-  };
 }
 
 // Функция закрытия попапа
 function closePopup(anyPopup) {
   anyPopup.classList.remove('popup_opened');
-  if (anyPopup === popupProfile) {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileDescription.textContent;
-  } else if (anyPopup === popupCard) {
-    nameInputCard.value = "";
-    urlInputCard.value = "";
-  };
 }
 
 // Обработчик клика кнопки Редактировать профиль
 editProfileButton.addEventListener('click', function () {
+
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileDescription.textContent;
+
   openPopup(popupProfile);
 });
 
@@ -147,6 +138,9 @@ formElement.addEventListener('submit', submitEditProfileForm);
 function formSubmitHandlerCard(evt) {
   evt.preventDefault();
   photoGrid.prepend(createCard(nameInputCard.value, urlInputCard.value));
+
+  nameInputCard.value = "";
+  urlInputCard.value = "";
 
   closePopup(popupCard);
 }
