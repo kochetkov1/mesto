@@ -19,7 +19,7 @@ const urlInputCard = document.querySelector('[name="popup__input-url-card"]');
 const cardName = document.querySelector('.photo-grid__title');
 const cardUrl = document.querySelector('.photo-grid__image');
 // Для попапа увеличения картинок
-const popupPic = document.querySelector('.popup-pic');
+const popupPic = document.querySelector('#popup-pic');
 const popupPicImage = document.querySelector('.popup-pic__image');
 const popupPicTitle = document.querySelector('.popup-pic__title');
 // Кнопки для попапа увеличения картинок
@@ -70,6 +70,9 @@ function openPopup(anyPopup) {
 // Функция закрытия попапа
 function closePopup(anyPopup) {
   anyPopup.classList.remove('popup_opened');
+  if (anyPopup.querySelector('.popup__form')) {
+    anyPopup.querySelector('.popup__form').reset();
+  };
 }
 
 // Обработчик клика кнопки Редактировать профиль
@@ -88,38 +91,17 @@ addCardButton.addEventListener('click', function () {
 
 // Обработчик клика кнопки закрытия попапа профиля
 popupCloseButton.addEventListener('click', function () {
-  closePopup(popupProfile);
+  closePopup(document.querySelector('.popup_opened'));
 });
 
 // Обработчик клика кнопки закрытия попапа карточек
 popupCardCloseButton.addEventListener('click', function () {
-  closePopup(popupCard);
+  closePopup(document.querySelector('.popup_opened'));
 });
 
 // Обработчик клика кнопки закрытия попапа увеличения картинок
 popupPicCloseButton.addEventListener('click', function () {
-  closePopup(popupPic);
-});
-
-// Закрытие кликом в пустоту для профиля
-popupProfile.addEventListener('click', function (e) {
-  if (e.target === e.currentTarget) {
-    closePopup(popupProfile);
-  }
-});
-
-// Закрытие кликом в пустоту для карточек
-popupCard.addEventListener('click', function (e) {
-  if (e.target === e.currentTarget) {
-    closePopup(popupCard);
-  }
-});
-
-// Закрытие кликом в пустоту для картинок
-popupPic.addEventListener('click', function (e) {
-  if (e.target === e.currentTarget) {
-    closePopup(popupPic);
-  }
+  closePopup(document.querySelector('.popup_opened'));
 });
 
 // Действия с полями попапа профиля
@@ -139,10 +121,126 @@ function formSubmitHandlerCard(evt) {
   evt.preventDefault();
   photoGrid.prepend(createCard(nameInputCard.value, urlInputCard.value));
 
-  nameInputCard.value = "";
-  urlInputCard.value = "";
-
   closePopup(popupCard);
 }
 
 formCard.addEventListener('submit', formSubmitHandlerCard);
+
+
+// Функция, которая добавляет класс с ошибкой
+const showInputError = (formElement, inputElement, errorMessage) => {
+  // Находим элемент ошибки внутри самой функции
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
+  inputElement.classList.add('popup__input_type_error');
+  // Заменим содержимое span с ошибкой на переданный параметр
+  errorElement.textContent = errorMessage;
+  // Показываем сообщение об ошибке
+  errorElement.classList.add('popup__input-error_active');
+};
+
+// Функция, которая удаляет класс с ошибкой
+const hideInputError = (formElement, inputElement) => {
+  // Находим элемент ошибки
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
+  inputElement.classList.remove('popup__input_type_error');
+  // Скрываем сообщение об ошибке
+  errorElement.classList.remove('popup__input-error_active');
+  // Очистим ошибку
+  errorElement.textContent = '';
+};
+
+// Функция, которая проверяет валидность поля
+const isValid = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    // Если поле не проходит валидацию, покажем ошибку
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    // Если проходит, скроем
+    hideInputError(formElement, inputElement);
+  }
+};
+
+// Проверка всех полей на валидность
+const hasInvalidInput = (inputList) => {
+  // Проходим по этому массиву методом some
+  return inputList.some((inputElement) => {
+    // Если поле не валидно, колбэк вернёт true
+    // Обход массива прекратится и вся функция
+    // hasInvalidInput вернёт true
+
+    return !inputElement.validity.valid;
+  })
+};
+
+// Отключение и включение кнопки
+const toggleButtonState = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.setAttribute('disabled', true);
+    buttonElement.classList.add('popup__save-button_inactive');
+  } else {
+    buttonElement.removeAttribute('disabled');
+    buttonElement.classList.remove('popup__save-button_inactive');
+  }
+}; 
+
+// Устанавливаем обработчики на инпуты
+const setEventListeners = (formElement) => {
+  // Находим все поля внутри формы,
+  // сделаем из них массив методом Array.from
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  const buttonElement = formElement.querySelector('.popup__save-button');
+
+  toggleButtonState(inputList, buttonElement);
+
+  // Обойдём все элементы полученной коллекции
+  inputList.forEach((inputElement) => {
+    // каждому полю добавим обработчик события input
+    inputElement.addEventListener('input', () => {
+      // Внутри колбэка вызовем isValid,
+      // передав ей форму и проверяемый элемент
+      isValid(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
+    });
+  });
+}; 
+
+// Добавление обработчиков всем формам
+const enableValidation = () => {
+  // Найдём все формы с указанным классом в DOM,
+  // сделаем из них массив методом Array.from
+  const formList = Array.from(document.querySelectorAll('.popup__form'));
+
+  // Переберём полученную коллекцию
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      // У каждой формы отменим стандартное поведение
+      evt.preventDefault();
+    });
+
+    // Для каждой формы вызовем функцию setEventListeners,
+    // передав ей элемент формы
+    setEventListeners(formElement);
+  });
+};
+
+// Вызовем функцию
+enableValidation(); 
+
+ // Устанавливаем обработчики на попапы
+const setEventListenersPopup = () => {
+  const popupList = Array.from(document.querySelectorAll('.popup'));
+
+  // Обойдём все элементы полученной коллекции
+  popupList.forEach((popupElement) => {
+    popupElement.addEventListener('mousedown', function (e) {
+      if (e.target === e.currentTarget) {
+        closePopup(document.querySelector(`#${e.target.id}`));
+      }
+    });
+
+  });
+}; 
+
+setEventListenersPopup();

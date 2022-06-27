@@ -13,7 +13,7 @@
   border: none;
   border-radius: 2px;
 
-  margin: 48px 0 0 0;
+  margin: 24px 0 0 0;
   padding: 0;
 
   transition: 0.7s;
@@ -34,6 +34,6 @@
     font-size: 14px;
     line-height: 17px;
 
-    margin: 45px 0 0 0;
+    margin: 21px 0 0 0;
   }
 }
