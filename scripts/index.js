@@ -1,9 +1,6 @@
-// Кнопки для попапа профиля
+// Кнопки
 const editProfileButton = document.querySelector('.profile__edit-button');
-const popupCloseButton = document.querySelector('[name="popup__close-button-profile"]');
-// Кнопки для попапа карточек
 const addCardButton = document.querySelector('.profile__add-button');
-const popupCardCloseButton = document.querySelector('[name="popup__close-button-card"]');
 // Для попапа в профиле
 const popupProfile = document.querySelector('#popup-profile');
 const formElement = document.querySelector('[name="popup__form-profile"]');
@@ -22,8 +19,6 @@ const cardUrl = document.querySelector('.photo-grid__image');
 const popupPic = document.querySelector('#popup-pic');
 const popupPicImage = document.querySelector('.popup-pic__image');
 const popupPicTitle = document.querySelector('.popup-pic__title');
-// Кнопки для попапа увеличения картинок
-const popupPicCloseButton = popupPic.querySelector('[name="popup__close-button-image"]');
 // Находим секцию, в которую будем вставлять карточки
 const photoGrid = document.querySelector('.photo-grid');
 // Находим шаблон с его содержимым
@@ -62,17 +57,22 @@ initialCards.forEach(function (item) {
   photoGrid.append(createCard(item.name, item.link));
 });
 
-// Функция открытия попапа
+// Открытие попапа
 function openPopup(anyPopup) {
+  if (anyPopup.querySelector('.popup__form')) {
+    updateSaveButtonStatus(anyPopup);
+  };
   anyPopup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEsc);
 }
 
-// Функция закрытия попапа
+// Закрытие попапа
 function closePopup(anyPopup) {
   anyPopup.classList.remove('popup_opened');
   if (anyPopup.querySelector('.popup__form')) {
     anyPopup.querySelector('.popup__form').reset();
   };
+  document.removeEventListener('keydown', closePopupEsc);
 }
 
 // Обработчик клика кнопки Редактировать профиль
@@ -87,21 +87,6 @@ editProfileButton.addEventListener('click', function () {
 // Обработчик клика кнопки Добавить
 addCardButton.addEventListener('click', function () {
   openPopup(popupCard);
-});
-
-// Обработчик клика кнопки закрытия попапа профиля
-popupCloseButton.addEventListener('click', function () {
-  closePopup(document.querySelector('.popup_opened'));
-});
-
-// Обработчик клика кнопки закрытия попапа карточек
-popupCardCloseButton.addEventListener('click', function () {
-  closePopup(document.querySelector('.popup_opened'));
-});
-
-// Обработчик клика кнопки закрытия попапа увеличения картинок
-popupPicCloseButton.addEventListener('click', function () {
-  closePopup(document.querySelector('.popup_opened'));
 });
 
 // Действия с полями попапа профиля
@@ -126,26 +111,39 @@ function formSubmitHandlerCard(evt) {
 
 formCard.addEventListener('submit', formSubmitHandlerCard);
 
- // Устанавливаем обработчики на попапы
+// Устанавливаем обработчики на попапы
 const setEventListenersPopup = () => {
   const popupList = Array.from(document.querySelectorAll('.popup'));
 
   // Обойдём все элементы полученной коллекции
   popupList.forEach((popupElement) => {
+    // Закрытие по клику на оверлей
     popupElement.addEventListener('mousedown', function (e) {
       if (e.target === e.currentTarget) {
         closePopup(document.querySelector(`#${e.target.id}`));
       }
     });
-
-    // popupElement.addEventListener('keydown', function (e) {
-    //   if (e.code === "Escape") {
-    //     closePopup(document.querySelector(`#${e.target.id}`));
-    //   }
-    // });
-
+    // Обработчик клика кнопки закрытия попапа
+    popupElement.querySelector('.popup__close-button').addEventListener('click', function () {
+      closePopup(document.querySelector('.popup_opened'));
+    });
   });
-}; 
+}
 
 // Вызовем функцию
 setEventListenersPopup();
+
+// Закрытие попапа по нажатию Esc
+const closePopupEsc = (e) => {
+  anyPopup = document.querySelector('.popup_opened');
+  if (e.code === "Escape") {
+    closePopup(anyPopup);
+  }
+}
+
+// Обновление статуса кнопки
+const updateSaveButtonStatus = (anyPopup) => {
+  const buttonElement = anyPopup.querySelector(validationConfig.submitButtonSelector);
+  buttonElement.setAttribute('disabled', true);
+  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+}
