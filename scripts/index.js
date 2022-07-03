@@ -59,9 +59,7 @@ initialCards.forEach(function (item) {
 
 // Открытие попапа
 function openPopup(anyPopup) {
-  if (anyPopup.querySelector('.popup__form')) {
-    updateSaveButtonStatus(anyPopup);
-  };
+  
   anyPopup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
 }
@@ -69,23 +67,27 @@ function openPopup(anyPopup) {
 // Закрытие попапа
 function closePopup(anyPopup) {
   anyPopup.classList.remove('popup_opened');
-  if (anyPopup.querySelector('.popup__form')) {
-    anyPopup.querySelector('.popup__form').reset();
-  };
   document.removeEventListener('keydown', closePopupEsc);
 }
 
 // Обработчик клика кнопки Редактировать профиль
 editProfileButton.addEventListener('click', function () {
 
+  popupProfile.querySelector('.popup__form').reset();
+
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
+  updateInputErrorStatus(popupProfile);
 
   openPopup(popupProfile);
 });
 
-// Обработчик клика кнопки Добавить
+// Обработчик клика кнопки Добавить карточку
 addCardButton.addEventListener('click', function () {
+  popupCard.querySelector('.popup__form').reset();
+  updateSaveButtonStatus(popupCard);
+  updateInputErrorStatus(popupCard);
+
   openPopup(popupCard);
 });
 
@@ -144,6 +146,14 @@ const closePopupEsc = (e) => {
 // Обновление статуса кнопки
 const updateSaveButtonStatus = (anyPopup) => {
   const buttonElement = anyPopup.querySelector(validationConfig.submitButtonSelector);
-  buttonElement.setAttribute('disabled', true);
-  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+  disableButton(buttonElement);
+}
+
+// Обновление статуса ошибки
+const updateInputErrorStatus = (anyPopup) => {
+  const formElement = anyPopup.querySelector(validationConfig.formSelector);
+  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement);
+  });
 }

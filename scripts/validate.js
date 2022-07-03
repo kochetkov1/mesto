@@ -54,11 +54,16 @@ const hasInvalidInput = (inputList) => {
   })
 };
 
+// Отдельная функция для замены атрибутов кнопки
+const disableButton = (buttonElement) => {
+  buttonElement.setAttribute('disabled', true);
+  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+};
+
 // Отключение и включение кнопки
 const toggleButtonState = (inputList, buttonElement) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.setAttribute('disabled', true);
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    disableButton(buttonElement);
   } else {
     buttonElement.removeAttribute('disabled');
     buttonElement.classList.remove(validationConfig.inactiveButtonClass);
@@ -94,11 +99,6 @@ const enableValidation = (validationConfig) => {
 
   // Переберём полученную коллекцию
   formList.forEach((formElement) => {
-    formElement.addEventListener('submit', (evt) => {
-      // У каждой формы отменим стандартное поведение
-      evt.preventDefault();
-    });
-
     // Для каждой формы вызовем функцию setEventListeners,
     // передав ей элемент формы
     setEventListeners(formElement);
