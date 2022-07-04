@@ -77,6 +77,7 @@ editProfileButton.addEventListener('click', function () {
 
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
+  updateSaveButtonStatus(popupProfile);
   updateInputErrorStatus(popupProfile);
 
   openPopup(popupProfile);
@@ -146,7 +147,8 @@ const closePopupEsc = (e) => {
 // Обновление статуса кнопки
 const updateSaveButtonStatus = (anyPopup) => {
   const buttonElement = anyPopup.querySelector(validationConfig.submitButtonSelector);
-  disableButton(buttonElement);
+  const inputList = Array.from(anyPopup.querySelectorAll(validationConfig.inputSelector));
+  toggleButtonState(inputList, buttonElement);
 }
 
 // Обновление статуса ошибки
