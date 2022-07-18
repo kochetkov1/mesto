@@ -1,3 +1,6 @@
+import { Card } from './Card.js';
+const card = new Card(initialCards, '#card');
+
 // Кнопки
 const editProfileButton = document.querySelector('.profile__edit-button');
 const addCardButton = document.querySelector('.profile__add-button');
@@ -19,47 +22,24 @@ const cardUrl = document.querySelector('.photo-grid__image');
 const popupPic = document.querySelector('#popup-pic');
 const popupPicImage = document.querySelector('.popup-pic__image');
 const popupPicTitle = document.querySelector('.popup-pic__title');
+
 // Находим секцию, в которую будем вставлять карточки
 const photoGrid = document.querySelector('.photo-grid');
-// Находим шаблон с его содержимым
-const photoGridCard = document.querySelector('#card').content;
 
-// Создание новой карточки
-function createCard(picName, picUrl) {
-  const newCard = photoGridCard.querySelector('.photo-grid__item').cloneNode(true);
-  const newCardImage = newCard.querySelector('.photo-grid__image');
-  newCardImage.src = picUrl;
-  newCard.querySelector('.photo-grid__title').textContent = picName;
-  newCardImage.alt = picName;
-
-  // Вешаем обработчик на лайк
-  newCard.querySelector('.photo-grid__like').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('photo-grid__like_active');
-  });
-
-  // Вешаем обработчик на удаление
-  newCard.querySelector('.photo-grid__delete').addEventListener('click', function (evt) {
-    evt.target.closest('.photo-grid__item').remove();
-  });
-
-  // Вешаем обработчик на открывание картинки
-  newCard.querySelector('.photo-grid__image').addEventListener('click', function () {
-    popupPicImage.src = picUrl;
-    popupPicImage.alt = picName;
-    popupPicTitle.textContent = picName;
-    openPopup(popupPic);
-  })
-  return newCard;
-}
+export { popupPic, popupPicImage, popupPicTitle };
 
 // Добавление карточек из массива
 initialCards.forEach(function (item) {
-  photoGrid.append(createCard(item.name, item.link));
+  const card = new Card(item, '#card');
+  const newCard = card.createCard();
+
+  // Добавляем в DOM
+  document.querySelector('.photo-grid').append(newCard);
 });
 
 // Открытие попапа
-function openPopup(anyPopup) {
-  
+export function openPopup(anyPopup) {
+
   anyPopup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
 }
@@ -107,7 +87,13 @@ formElement.addEventListener('submit', submitEditProfileForm);
 // Действия с полями попапа карточек 
 function formSubmitHandlerCard(evt) {
   evt.preventDefault();
-  photoGrid.prepend(createCard(nameInputCard.value, urlInputCard.value));
+  const dataForm = {
+    name: nameInputCard.value,
+    link: urlInputCard.value
+  }
+  const card = new Card(dataForm, '#card');
+  const newCard = card.createCard();
+  photoGrid.prepend(newCard);
 
   closePopup(popupCard);
 }
@@ -138,7 +124,8 @@ setEventListenersPopup();
 
 // Закрытие попапа по нажатию Esc
 const closePopupEsc = (e) => {
-  anyPopup = document.querySelector('.popup_opened');
+  const anyPopup = document.querySelector('.popup_opened');
+  
   if (e.code === "Escape") {
     closePopup(anyPopup);
   }
