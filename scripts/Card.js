@@ -1,6 +1,4 @@
 export class Card {
-  //data - инишал кардс
-  //селектор - '#card'
   constructor(data, cardSelector, openPic) {
     this._name = data.name;
     this._link = data.link;
