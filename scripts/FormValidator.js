@@ -86,7 +86,8 @@ enableValidation() {
 }
 
 // Обновление статуса кнопки и ошибки
-updateValidation() {
+resetButtonAndErrorStatus() {
+  this._formElement.reset();
   this._toggleButtonState();
   this._inputList.forEach((inputElement) => {
     this._hideInputError(inputElement);

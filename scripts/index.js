@@ -59,19 +59,17 @@ function openPic(link, name) {
 // Обработчик клика кнопки Редактировать профиль
 editProfileButton.addEventListener('click', function () {
 
-  popupProfile.querySelector('.popup__form').reset();
-
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
-  formForProfile.updateValidation();
+  formForProfile.resetButtonAndErrorStatus();
 
   openPopup(popupProfile);
 });
 
 // Обработчик клика кнопки Добавить карточку
 addCardButton.addEventListener('click', function () {
-  popupCard.querySelector('.popup__form').reset();
-  formForCard.updateValidation();
+  
+  formForCard.resetButtonAndErrorStatus();
 
   openPopup(popupCard);
 });
