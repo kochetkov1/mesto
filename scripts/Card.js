@@ -1,12 +1,11 @@
-import { popupPic, popupPicImage, popupPicTitle, openPopup } from './index.js';
-
 export class Card {
   //data - инишал кардс
   //селектор - '#card'
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, openPic) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._openPic = openPic;
     this._newCard = this._getTemplate();
     this._newCardImage = this._newCard.querySelector('.photo-grid__image');
   }
@@ -36,13 +35,6 @@ export class Card {
 
   _setLike() {
     this._likeButton.classList.toggle('photo-grid__like_active');
-  }
-
-  _openPic(link, name) {
-    document.querySelector('.popup-pic__image').src = link;
-    document.querySelector('.popup-pic__title').alt = name;
-    document.querySelector('.popup-pic__title').textContent = name;
-    openPopup(popupPic);
   }
   
   // Слушатели карточки

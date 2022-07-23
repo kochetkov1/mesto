@@ -1,5 +1,4 @@
 import { Card } from './Card.js';
-const card = new Card(initialCards, '#card');
 
 // Кнопки
 const editProfileButton = document.querySelector('.profile__edit-button');
@@ -16,8 +15,6 @@ const popupCard = document.querySelector('#popup-card');
 const formCard = document.querySelector('[name="popup__form-card"]');
 const nameInputCard = document.querySelector('[name="popup__input-name-card"]');
 const urlInputCard = document.querySelector('[name="popup__input-url-card"]');
-const cardName = document.querySelector('.photo-grid__title');
-const cardUrl = document.querySelector('.photo-grid__image');
 // Для попапа увеличения картинок
 const popupPic = document.querySelector('#popup-pic');
 const popupPicImage = document.querySelector('.popup-pic__image');
@@ -26,19 +23,17 @@ const popupPicTitle = document.querySelector('.popup-pic__title');
 // Находим секцию, в которую будем вставлять карточки
 const photoGrid = document.querySelector('.photo-grid');
 
-export { popupPic, popupPicImage, popupPicTitle };
-
 // Добавление карточек из массива
 initialCards.forEach(function (item) {
-  const card = new Card(item, '#card');
+  const card = new Card(item, '#card', openPic);
   const newCard = card.createCard();
 
   // Добавляем в DOM
-  document.querySelector('.photo-grid').append(newCard);
+  photoGrid.append(newCard);
 });
 
 // Открытие попапа
-export function openPopup(anyPopup) {
+function openPopup(anyPopup) {
 
   anyPopup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
@@ -48,6 +43,14 @@ export function openPopup(anyPopup) {
 function closePopup(anyPopup) {
   anyPopup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEsc);
+}
+
+// Открытие увеличенной картинки
+function openPic(link, name) {
+  popupPicImage.src = link;
+  popupPicImage.alt = name;
+  popupPicTitle.textContent = name;
+  openPopup(popupPic);
 }
 
 // Обработчик клика кнопки Редактировать профиль
@@ -91,7 +94,7 @@ function formSubmitHandlerCard(evt) {
     name: nameInputCard.value,
     link: urlInputCard.value
   }
-  const card = new Card(dataForm, '#card');
+  const card = new Card(dataForm, '#card', openPic);
   const newCard = card.createCard();
   photoGrid.prepend(newCard);
 
