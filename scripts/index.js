@@ -26,14 +26,18 @@ const popupPicTitle = document.querySelector('.popup-pic__title');
 // Находим секцию, в которую будем вставлять карточки
 const photoGrid = document.querySelector('.photo-grid');
 
-// Добавление карточек из массива
-initialCards.forEach(function (item) {
+// Создание карточки
+function renderCard(item) {
   const card = new Card(item, '#card', openPic);
   const newCard = card.createCard();
+  return newCard 
+}
 
+// Добавление карточек из массива
+initialCards.forEach(function (item) {
   // Добавляем в DOM
-  photoGrid.append(newCard);
-});
+  photoGrid.append(renderCard(item));
+})
 
 // Открытие попапа
 function openPopup(anyPopup) {
@@ -58,10 +62,9 @@ function openPic(link, name) {
 
 // Обработчик клика кнопки Редактировать профиль
 editProfileButton.addEventListener('click', function () {
-
+  formForProfile.resetButtonAndErrorStatus();
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
-  formForProfile.resetButtonAndErrorStatus();
 
   openPopup(popupProfile);
 });
@@ -87,20 +90,18 @@ function submitEditProfileForm(evt) {
 formElement.addEventListener('submit', submitEditProfileForm);
 
 // Действия с полями попапа карточек 
-function formSubmitHandlerCard(evt) {
+function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const dataForm = {
     name: nameInputCard.value,
     link: urlInputCard.value
   }
-  const card = new Card(dataForm, '#card', openPic);
-  const newCard = card.createCard();
-  photoGrid.prepend(newCard);
+  photoGrid.prepend(renderCard(dataForm));
 
   closePopup(popupCard);
 }
 
-formCard.addEventListener('submit', formSubmitHandlerCard);
+formCard.addEventListener('submit', handleCardFormSubmit);
 
 // Устанавливаем обработчики на попапы
 const setEventListenersPopup = () => {
@@ -126,9 +127,8 @@ setEventListenersPopup();
 
 // Закрытие попапа по нажатию Esc
 const closePopupEsc = (e) => {
-  const anyPopup = document.querySelector('.popup_opened');
-
   if (e.code === "Escape") {
+    const anyPopup = document.querySelector('.popup_opened');
     closePopup(anyPopup);
   }
 }
