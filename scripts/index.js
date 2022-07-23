@@ -1,4 +1,7 @@
+import { validationConfig } from './validate.js';
+import { initialCards } from './initial-cards.js';
 import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 // Кнопки
 const editProfileButton = document.querySelector('.profile__edit-button');
@@ -60,8 +63,7 @@ editProfileButton.addEventListener('click', function () {
 
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
-  updateSaveButtonStatus(popupProfile);
-  updateInputErrorStatus(popupProfile);
+  formForProfile.updateValidation();
 
   openPopup(popupProfile);
 });
@@ -69,8 +71,7 @@ editProfileButton.addEventListener('click', function () {
 // Обработчик клика кнопки Добавить карточку
 addCardButton.addEventListener('click', function () {
   popupCard.querySelector('.popup__form').reset();
-  updateSaveButtonStatus(popupCard);
-  updateInputErrorStatus(popupCard);
+  formForCard.updateValidation();
 
   openPopup(popupCard);
 });
@@ -128,24 +129,16 @@ setEventListenersPopup();
 // Закрытие попапа по нажатию Esc
 const closePopupEsc = (e) => {
   const anyPopup = document.querySelector('.popup_opened');
-  
+
   if (e.code === "Escape") {
     closePopup(anyPopup);
   }
 }
 
-// Обновление статуса кнопки
-const updateSaveButtonStatus = (anyPopup) => {
-  const buttonElement = anyPopup.querySelector(validationConfig.submitButtonSelector);
-  const inputList = Array.from(anyPopup.querySelectorAll(validationConfig.inputSelector));
-  toggleButtonState(inputList, buttonElement);
-}
+// Валидация форм
+const formForProfile = new FormValidator(validationConfig, formElement);
+formForProfile.enableValidation();
 
-// Обновление статуса ошибки
-const updateInputErrorStatus = (anyPopup) => {
-  const formElement = anyPopup.querySelector(validationConfig.formSelector);
-  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
-  inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement);
-  });
-}
+const formForCard = new FormValidator(validationConfig, formCard);
+formForCard.enableValidation();
+
