@@ -38,7 +38,6 @@ export class Card {
   // Слушатели карточки
   _setEventListenersPopup() {
     // Вешаем обработчик на лайк
-    
     this._likeButton.addEventListener('click', () => {
       this._setLike();
     });
