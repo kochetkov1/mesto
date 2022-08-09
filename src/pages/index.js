@@ -10,14 +10,12 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
 
 // Кнопки
-const editProfileButton = document.querySelector('.profile__edit-button');
+const buttonEditProfile = document.querySelector('.profile__edit-button');
 const addCardButton = document.querySelector('.profile__add-button');
 // Для попапа в профиле
 const formElement = document.querySelector('[name="popup__form-profile"]');
 const nameInput = document.querySelector('[name="popup__input_name_profile"]');
 const jobInput = document.querySelector('[name="popup__input_description_profile"]');
-const profileName = document.querySelector('.profile__name');
-const profileDescription = document.querySelector('.profile__description');
 // Для попапа в карточках
 const formCard = document.querySelector('[name="popup__form-card"]');
 
@@ -28,17 +26,18 @@ const userSelectors =
   description: '.profile__description'
 };
 
-// Создаем и добавляем набор стандартных карточек
-const defaultCardList = new Section({
-  items: initialCards, renderer: (item) => {
-    const card = new Card(item, '#card', openPic);
-    const newCard = card.createCard();
-    return newCard
-  }
+const renderCard = (item) => {
+  const card = new Card(item, '#card', openPic);
+  const newCard = card.createCard();
+  return newCard
+};
 
+// Добавляем набор стандартных карточек
+const defaultCardList = new Section({
+  items: initialCards, renderer: renderCard
 }, '.photo-grid');
 
-defaultCardList.addItem();
+defaultCardList.renderItems();
 
 const popupWithImage = new PopupWithImage('#popup-pic');
 popupWithImage.setEventListeners();
@@ -54,11 +53,12 @@ function openPic(link, name) {
   popupWithImage.open(link, name);
 }
 
+const user = new UserInfo(userSelectors);
+const userData = user.getUserInfo();
+
 // Обработчик клика кнопки Редактировать профиль
-editProfileButton.addEventListener('click', function () {
+buttonEditProfile.addEventListener('click', function () {
   formForProfile.resetButtonAndErrorStatus();
-  const user = new UserInfo(userSelectors);
-  const userData = user.getUserInfo();
 
   nameInput.value = userData.name;
   jobInput.value = userData.description;
@@ -75,8 +75,10 @@ addCardButton.addEventListener('click', function () {
 // Действия с полями попапа профиля
 function submitEditProfileForm(data) {
 
-  profileName.textContent = data.popup__input_name_profile;
-  profileDescription.textContent = data.popup__input_description_profile;
+  userData.name = data.popup__input_name_profile;
+  userData.description = data.popup__input_description_profile;
+
+  user.setUserInfo(userData);
 
   popupWithFormProfile.close();
 }
@@ -89,15 +91,13 @@ function handleCardFormSubmit(data) {
       link: data.link
     }
   ];
-  const anyNewCard = new Section({
-    items: dataForm, renderer: (item) => {
-      const card = new Card(item, '#card', openPic);
-      const newCard = card.createCard();
-      return newCard
-    }
-  }, '.photo-grid');
+  
+// Экземпляр класса для формы
+const anyNewCard = new Section({
+  items: dataForm, renderer: renderCard
+}, '.photo-grid');
 
-  anyNewCard.addItem();
+  anyNewCard.renderItems();
 
   popupWithFormCard.close();
 }
