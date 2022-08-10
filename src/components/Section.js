@@ -4,6 +4,10 @@ export class Section {
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
   }
+
+  renderer(element) {
+    return this._renderer(element);
+  }
   
   addItem(element) {
     this._container.prepend(element);
@@ -11,7 +15,8 @@ export class Section {
 
   renderItems() {
     this._items.forEach((item) => {
-      this.addItem(this._renderer(item));
+      const element = this.renderer(item);
+      this.addItem(element);
     });
   }
 

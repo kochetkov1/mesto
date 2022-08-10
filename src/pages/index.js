@@ -14,8 +14,8 @@ const buttonEditProfile = document.querySelector('.profile__edit-button');
 const addCardButton = document.querySelector('.profile__add-button');
 // Для попапа в профиле
 const formElement = document.querySelector('[name="popup__form-profile"]');
-const nameInput = document.querySelector('[name="popup__input_name_profile"]');
-const jobInput = document.querySelector('[name="popup__input_description_profile"]');
+const nameInput = document.querySelector('#name-input');
+const jobInput = document.querySelector('#description-input');
 // Для попапа в карточках
 const formCard = document.querySelector('[name="popup__form-card"]');
 
@@ -54,11 +54,11 @@ function openPic(link, name) {
 }
 
 const user = new UserInfo(userSelectors);
-const userData = user.getUserInfo();
 
 // Обработчик клика кнопки Редактировать профиль
 buttonEditProfile.addEventListener('click', function () {
   formForProfile.resetButtonAndErrorStatus();
+  const userData = user.getUserInfo();
 
   nameInput.value = userData.name;
   jobInput.value = userData.description;
@@ -74,30 +74,17 @@ addCardButton.addEventListener('click', function () {
 
 // Действия с полями попапа профиля
 function submitEditProfileForm(data) {
-
-  userData.name = data.popup__input_name_profile;
-  userData.description = data.popup__input_description_profile;
-
-  user.setUserInfo(userData);
-
+  user.setUserInfo(data);
   popupWithFormProfile.close();
 }
 
 // Действия с полями попапа карточки
 function handleCardFormSubmit(data) {
-  const dataForm = [
-    {
-      name: data.name,
-      link: data.link
-    }
-  ];
-  
-// Экземпляр класса для формы
-const anyNewCard = new Section({
-  items: dataForm, renderer: renderCard
-}, '.photo-grid');
+ 
+  const anyCard = popupWithFormCard._getInputValues();
+  const anyRenderCard = defaultCardList.renderer(anyCard);
 
-  anyNewCard.renderItems();
+  defaultCardList.addItem(anyRenderCard);
 
   popupWithFormCard.close();
 }
