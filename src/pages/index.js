@@ -33,9 +33,13 @@ const renderCard = (item) => {
 };
 
 // Добавляем набор стандартных карточек
+
 const defaultCardList = new Section({
-  items: initialCards, renderer: renderCard
-}, '.photo-grid');
+  items: initialCards, renderer: (data) => { // метод принимает аргумент
+    const renderedCard = renderCard(data); // создаем карточку
+    defaultCardList.addItem(renderedCard); // вставляем карточку в разметку 
+  }
+}, '.photo-grid'); 
 
 defaultCardList.renderItems();
 
@@ -80,14 +84,10 @@ function submitEditProfileForm(data) {
 
 // Действия с полями попапа карточки
 function handleCardFormSubmit(data) {
- 
-  const anyCard = popupWithFormCard._getInputValues();
-  const anyRenderCard = defaultCardList.renderer(anyCard);
-
-  defaultCardList.addItem(anyRenderCard);
-
+  const newCard = renderCard(data);
+  defaultCardList.addItem(newCard);
   popupWithFormCard.close();
-}
+} 
 
 // Валидация форм
 const formForProfile = new FormValidator(validationConfig, formElement);
