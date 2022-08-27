@@ -1,7 +1,6 @@
 import "./index.css";
 import {
   validationConfig,
-  avatar,
   nameInput,
   jobInput,
   buttonEditProfile,
@@ -64,17 +63,14 @@ const popupWithFormProfile = new PopupWithForm('#popup-profile', {
 // Действия с попапом информации профиля
 popupWithFormProfile.setEventListeners();
 buttonEditProfile.addEventListener("click", () => {
-  api
-    .getUserProfile()
-    .then(userData => {
-      nameInput.value = userData.name;
-      jobInput.value = userData.about;
-    })
-    .catch((err) => {
-      console.log("Ошибка при получении информации профиля:", err);
-    })
   formForProfile.resetButtonAndErrorStatus();
+
+  const userData = userInfo.getUserInfo();
+  nameInput.value = userData.name;
+  jobInput.value = userData.description;
+
   popupWithFormProfile.open();
+  
 });
 
 // Действия с попапом увеличенной картинки
@@ -97,7 +93,10 @@ const createCard = (data) => {
         popupDeleteCard.open(() => {
           api
             .deleteCard(cardId)
-            .then(() => card.deleteCard())
+            .then(() => 
+            card.deleteCard(),
+            popupDeleteCard.close()
+            )
             .catch((err) => console.log("Ошибка при удалении карточки:", err));
         });
       },
@@ -152,13 +151,13 @@ const popupWithFormCard = new PopupWithForm('#popup-card',
         .addCard(inputData)
         .then((data) => {
           cardList.addItem(createCard(data), true);
+          handleCloseForm();
         })
         .catch((err) => {
           console.log("Ошибка при загрузки карточки:", err);
         })
         .finally(() => {
           showLoading(false);
-          handleCloseForm();
         });
     },
   }
@@ -178,15 +177,15 @@ const popupWithFormAvatar = new PopupWithForm('#popup-avatar',
       showLoading(true);
       api
         .updateAvatar(inputData.link)
-        .then(() => {
-          avatar.src = inputData.link;
+        .then((data) => {
+          userInfo.setUserInfo(data);
+          handleCloseForm();
         })
         .catch((err) => {
           console.log("Ошибка при обновлении аватара:", err);
         })
         .finally(() => {
           showLoading(false);
-          handleCloseForm();
         });
     },
   }
